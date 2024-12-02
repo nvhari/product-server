@@ -21,7 +21,9 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model('Product', productSchema);
-
+app.get('/', (req, res) => {
+  res.send("<h1>Type '/' products</h1>")
+ });
 // Seed data (optional, for testing)
 app.get('/seed', async (req, res) => {
   const products = [
