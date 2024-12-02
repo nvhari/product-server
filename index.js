@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
+// MongoDB connection//
 const MONGO_URI =
   "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with your actual MongoDB URI
 mongoose
