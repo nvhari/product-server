@@ -3,14 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend origin
+  methods: 'GET,POST,PUT,DELETE', // Specify the HTTP methods allowed
+  credentials: true // Enable cookies/auth headers if needed
+}));
 app.use(express.json());
 
-// MongoDB connection//
-const MONGO_URI =
-  "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with your actual MongoDB URI
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// MongoDB connection
+const MONGO_URI = "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with actual MongoDB URI
+mongoose.connect(MONGO_URI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -23,15 +25,12 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", productSchema);
-app.use(cors({
-  origin: 'http://localhost:5173', // Replace this with the origin of your frontend
-  methods: 'GET,POST,PUT,DELETE', // Add allowed HTTP methods if necessary
-  credentials: true, // Allow cookies or authentication headers if needed
-}));
+
 // Routes
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to the Products API</h1>");
 });
+
 // Seed data (optional, for testing)
 app.get("/seed", async (req, res) => {
   const products = [
@@ -72,12 +71,10 @@ app.get("/seed", async (req, res) => {
     },
   ];
   try {
-    // Prevent duplicate data on re-seeding
     const existingProducts = await Product.find();
     if (existingProducts.length > 0) {
       return res.json({ message: "Database already seeded" });
     }
-
     await Product.insertMany(products);
     res.json({ message: "Seed data added successfully" });
   } catch (err) {
@@ -95,11 +92,15 @@ app.get("/products", async (req, res) => {
   }
 });
 
+
+
+
 // Start the server
 const PORT = 5000;
 app.listen(PORT, () =>
   console.log(`Server is running on http://localhost:${PORT}`)
 );
 
+ 
 // Export the app for Vercel
 module.exports = app;
