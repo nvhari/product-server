@@ -23,6 +23,11 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", productSchema);
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace this with the origin of your frontend
+  methods: 'GET,POST,PUT,DELETE', // Add allowed HTTP methods if necessary
+  credentials: true, // Allow cookies or authentication headers if needed
+}));
 // Routes
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to the Products API</h1>");
