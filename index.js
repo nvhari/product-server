@@ -12,7 +12,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Product schema
+ 
 const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
@@ -24,7 +24,7 @@ const Product = mongoose.model('Product', productSchema);
 app.get('/', (req, res) => {
   res.send("<h1>Type '/' products</h1>")
  });
-// Seed data (optional, for testing)
+ 
 app.get('/seed', async (req, res) => {
   const products = [
     { name: 'Fjallraven Backpack', price: 109.95, description: 'Fits 15" laptops', image: 'https://www.jiomart.com/images/product/original/rvjjz4lfas/astrid-men-s-laptop-bag-office-bag-with-sling-waterproof-laptop-sleeve-cover-brown-7-l-product-images-rvjjz4lfas-0-202312201506.jpg?im=Resize=(600,750)' },
@@ -41,7 +41,7 @@ app.get('/seed', async (req, res) => {
   }
 });
 
-// API endpoint to fetch products
+ 
 app.get('/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -51,6 +51,6 @@ app.get('/products', async (req, res) => {
   }
 });
 
-// Start the server
+ 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
