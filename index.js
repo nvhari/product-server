@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,15 +8,29 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
- n
-const MONGO_URI = 'mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/'; // Replace this with your actual MongoDB URI
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('MongoDB connection error:', err));
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net';  
+let isConnected; // Track database connection status
 
+const connectToDatabase = async () => {
+  if (isConnected) {
+    console.log('Using existing database connection');
+    return;
+  }
+  console.log('Creating new database connection');
+  try {
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    isConnected = true;
+    console.log('Connected to MongoDB Atlas');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
+  }
+};
 
-
-// Product Schema
+// Product Schema and Model
 const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
@@ -27,7 +42,7 @@ const Product = mongoose.model('Product', productSchema);
 
 // Routes
 app.get('/', (req, res) => {
-  res.send("<h1>Welcome to the Products API</h1>");
+  res.send('<h1>Welcome to the Products API</h1>');
 });
 
 app.get('/seed', async (req, res) => {
@@ -38,7 +53,9 @@ app.get('/seed', async (req, res) => {
     { name: 'Mens Casual Slim Fit', price: 15.99, description: 'Comfortable slim fit shirt', image: 'https://www.jiomart.com/images/product/original/rvxsoqxkml/glito-stylish-graphic-printed-kangaroo-pocket-s-hooded-sweartshirts-men-product-images-rvxsoqxkml-0-202409110209.jpg?im=Resize=(330,410)' },
     { name: 'Elegant Watch', price: 120.49, description: 'Luxury wristwatch', image: 'https://www.jiomart.com/images/product/original/rvwgz5gjfb/acnos-silver-strap-analogue-steel-watch-for-men-pack-of-1-fx437-product-images-rvwgz5gjfb-0-202305050811.jpg?im=Resize=(330,410)' },
   ];
+
   try {
+    await connectToDatabase();
     await Product.insertMany(products);
     res.json({ message: 'Seed data added successfully' });
   } catch (err) {
@@ -48,6 +65,7 @@ app.get('/seed', async (req, res) => {
 
 app.get('/products', async (req, res) => {
   try {
+    await connectToDatabase();
     const products = await Product.find();
     res.json(products);
   } catch (err) {
