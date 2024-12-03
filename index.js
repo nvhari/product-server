@@ -3,20 +3,24 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your frontend origin
-  methods: 'GET,POST,PUT,DELETE', // Specify the HTTP methods allowed
-  credentials: true // Enable cookies/auth headers if needed
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
-// MongoDB connection
-const MONGO_URI = "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with actual MongoDB URI
-mongoose.connect(MONGO_URI)
+// MongoDB
+const MONGO_URI =
+  "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with actual MongoDB URI
+mongoose
+  .connect(MONGO_URI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Product schema and model
+// Product schema
 const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
@@ -31,7 +35,7 @@ app.get("/", (req, res) => {
   res.send("<h1>Welcome to the Products API</h1>");
 });
 
-// Seed data (optional, for testing)
+// Seed data
 app.get("/seed", async (req, res) => {
   const products = [
     {
@@ -82,7 +86,7 @@ app.get("/seed", async (req, res) => {
   }
 });
 
-// API endpoint to fetch products
+// API
 app.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
@@ -92,15 +96,10 @@ app.get("/products", async (req, res) => {
   }
 });
 
-
-
-
 // Start the server
 const PORT = 5000;
 app.listen(PORT, () =>
   console.log(`Server is running on http://localhost:${PORT}`)
 );
 
- 
-// Export the app for Vercel
 module.exports = app;
