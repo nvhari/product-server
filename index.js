@@ -5,18 +5,16 @@ const cors = require("cors");
 const app = express();
 
 // CORS setup
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173", // Allow local development
-      "https://product-frontend-zeta.vercel.app" // Allow deployed frontend
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // If cookies or authentication headers are used
-  })
-);
+ 
 
-app.use(express.json());
+// Configure CORS to allow only your frontend domain
+app.use(cors({
+  origin: 'https://product-frontend-amber.vercel.app', // Your frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true // Enable cookies and credentials if needed
+}));
+
+// Your API routes and other server logic here...
 
 // MongoDB connection
 const MONGO_URI =
