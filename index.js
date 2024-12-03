@@ -3,12 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your frontend origin
-  methods: 'GET,POST,PUT,DELETE', // Specify the HTTP methods allowed
-  credentials: true // Enable cookies/auth headers if needed
-}));
-app.use(express.json());
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "https://product-frontend-six.vercel.app", // Your frontend's domain
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // If your frontend sends cookies or uses credentials
+  })
+);
+
 
 // MongoDB connection
 const MONGO_URI = "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with actual MongoDB URI
