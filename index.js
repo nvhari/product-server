@@ -91,12 +91,16 @@ app.get("/seed", async (req, res) => {
 // Fetch all products
 app.get("/products", async (req, res) => {
   try {
-    const products = await Product.find();
+    const { page = 1, limit = 10 } = req.query;
+    const products = await Product.find()
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 // Export the app for Vercel
 module.exports = app;
