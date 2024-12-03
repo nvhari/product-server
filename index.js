@@ -7,18 +7,18 @@ const app = express();
 // CORS setup
  
 
-// Configure CORS to allow only your frontend domain
+ 
 app.use(cors({
-  origin: 'https://product-frontend-amber.vercel.app', // Your frontend domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  credentials: true // Enable cookies and credentials if needed
+  origin: 'https://product-frontend-amber.vercel.app', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+  credentials: true  
 }));
 
-// Your API routes and other server logic here...
+ 
 
 // MongoDB connection
 const MONGO_URI =
-  "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/"; // Replace with actual MongoDB URI
+  "mongodb+srv://harinv18:zPWAzE6dMaLy6JpU@product-list.swerw.mongodb.net/";  
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log("Connected to MongoDB Atlas"))
@@ -39,7 +39,7 @@ const Product = mongoose.model("Product", productSchema);
 //   res.send("<h1>Welcome to the Products API</h1>");
 // });
 
-// Seed data route (optional, for testing or populating database)
+// Seed data  
 app.get("/seed", async (req, res) => {
   const products = [
     {
@@ -92,7 +92,7 @@ app.get("/seed", async (req, res) => {
   }
 });
 
-// API route to fetch products
+// API route  
 app.get("/", async (req, res) => {
   try {
     const products = await Product.find();
@@ -102,11 +102,10 @@ app.get("/", async (req, res) => {
   }
 });
 
-// Start the server on localhost:5000
+// Start the server  
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`Server is running on http://localhost:${PORT}`)
 );
-
-// Export the app (if deploying to platforms like Vercel)
+ 
 module.exports = app;
