@@ -7,13 +7,15 @@ const app = express();
 // CORS setup
 app.use(
   cors({
-    origin: "http://localhost:5173", // Update with the correct frontend URL if needed
-    methods: ["GET", "POST", "PUT", "DELETE"], // Methods allowed for CORS
-    credentials: true, // If using cookies or authentication headers
+    origin: [
+      "http://localhost:5173", // Allow local development
+      "https://product-frontend-zeta.vercel.app" // Allow deployed frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // If cookies or authentication headers are used
   })
 );
 
-// Middleware to parse JSON
 app.use(express.json());
 
 // MongoDB connection
