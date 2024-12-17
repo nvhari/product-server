@@ -5,12 +5,12 @@ const cors = require("cors");
 const app = express();
 
 // Middleware setup
-app.use(express.json()); // Parse JSON request bodies
+app.use(express.json());  
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from your frontend
-    methods: ["GET", "POST", "PUT", "DELETE"], // Supported HTTP methods
-    credentials: true, // Allow sending cookies
+    origin: "https://product-frontend-amber.vercel.app/", 
+    methods: ["GET", "POST", "PUT", "DELETE"],  
+    credentials: true,  
   })
 );
 
