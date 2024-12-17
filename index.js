@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json()); // Parse JSON request bodies
 app.use(
   cors({
-    origin: "http://localhost:5173", // Update as needed for your frontend
+    origin: "https://product-frontend-five.vercel.app", // Update as needed for your frontend
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // Allow credentials
   })
