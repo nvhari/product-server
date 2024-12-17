@@ -2,15 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const app = express();
+const cors = require('cors');
 
-// Middleware setup
-app.use(express.json());
 app.use(
   cors({
-    origin: "https://product-frontend-ten.vercel.app/",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    origin: "https://product-frontend-ten.vercel.app",  
+    methods: ["GET", "POST", "PUT", "DELETE"],         
+    credentials: true,                               
   })
 );
 
